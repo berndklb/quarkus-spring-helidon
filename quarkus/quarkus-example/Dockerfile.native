@@ -1,0 +1,31 @@
+####
+# This Dockerfile is used in order to build a container that runs the Quarkus application in native (no JVM) mode
+#
+# Before building the docker image run:
+#
+# mvn package -Pnative -Dquarkus.native.container-build=true
+#
+# Then, build the image with:
+#
+# docker build -f Dockerfile.native -t quarkus/quarkus-example .
+#
+# Then run the container using:
+#
+# docker run -i --rm -p 8080:8080 quarkus/quarkus-example
+#
+###
+FROM oracle/graalvm-ce:19.2.1
+
+
+WORKDIR /app
+COPY . /app
+
+RUN gu install native-image
+
+RUN ls -l
+RUN chmod 770 ./mvnw
+RUN ./mvnw package -DskipTests -Pnative -Dquarkus.native.container=true
+
+EXPOSE 8080
+
+CMD ["./target/quarkus-example-1.0.0-SNAPSHOT-runner", "-Dquarkus.http.host=0.0.0.0"]
