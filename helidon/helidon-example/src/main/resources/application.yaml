@@ -1,0 +1,21 @@
+# Configuration file
+# key = value
+app:
+  greeting: hello
+  
+server:
+  port=8080
+  host=0.0.0.0
+javax:
+    sql:
+        DataSource:
+            greetingDataSource:
+                dataSource:
+                    url: jdbc:postgresql://localhost:5432/microprofile
+                    user: postgres
+                    password: admin
+      
+config:
+  service:
+    rest:
+      url: https://jsonplaceholder.typicode.com/
